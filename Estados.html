@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+    <h1>Selecciona los estados</h1>
+
+    <label for="combo1">Estado con  $.get </label>
+    <select id="combo1"></select>
+    <br>
+    <br>
+
+    <label for="combo2">Estado con  $.ajax </label>
+    <select id="combo2"></select>
+    <br>
+    <br>
+
+    <label for="combo3">Estado con JavaScript fetch </label>
+    <select id="combo3"></select>
+    <br>
+    <br>
+
+    <script>
+
+        $.get("Estados.json", function(data) {
+            var combo1 = $("#combo1");
+            $.each(data, function(index, estado) {
+                combo1.append($("<option></option>")
+                    .attr("value", estado.clave)
+                    .text(estado.nombre));
+            });
+        });
+
+        $.ajax({
+            url: "Estados.json",
+            dataType: "json",
+            success: function(data) {
+                var combo2 = $("#combo2");
+                $.each(data, function(index, estado) {
+                    combo2.append($("<option></option>")
+                        .attr("value", estado.clave)
+                        .text(estado.nombre));
+                });
+            }
+        });
+
+        fetch("Estados.json")
+            .then(response => response.json())
+            .then(data => {
+                var combo3 = document.getElementById("combo3");
+                data.forEach(estado => {
+                    var option = document.createElement("option");
+                    option.value = estado.clave;
+                    option.text = estado.nombre;
+                    combo3.appendChild(option);
+                });
+            });
+    </script>
+</body>
+</html>
